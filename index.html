@@ -203,13 +203,18 @@
   </section>
 
   <section id="cart">
-  <h2>Your Cart</h2>
-  <ul id="cart-items"></ul>
-  <div id="cart-total">
-    <strong>Total (excluding shipping): ₦<span id="total-amount">0</span></strong>
-  </div>
-  <button id="checkout-btn" class="btn">Checkout via WhatsApp</button>
-</section>
+    <h2>Your Cart</h2>
+    <ul id="cart-items"></ul>
+    <div id="cart-total">
+      <strong>Total (excluding shipping): ₦<span id="total-amount">0</span></strong>
+    </div>
+    <button id="checkout-btn" class="btn">Checkout via WhatsApp</button>
+  </section>
+
+  <!-- Floating View Cart Button -->
+<button id="view-cart-btn" class="floating-cart-btn" style="display: none;">
+  <img src="img/trolley.jpg" alt="View Cart">
+</button>
 
 
   <section id="about">
@@ -230,16 +235,17 @@
 
 
 
-<script>
+  <script>
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const viewCartBtn = document.getElementById("view-cart-btn");
 
-  // Initialize buttons and cart on load
   document.addEventListener("DOMContentLoaded", () => {
     updateCart();
     updateButtons();
+    toggleViewCartButton();
   });
 
-  // Add/Remove products
+  // Add or remove products
   document.querySelectorAll(".add-to-cart").forEach(btn => {
     btn.addEventListener("click", () => {
       const product = btn.dataset.product;
@@ -247,20 +253,19 @@
       const existing = cart.find(item => item.product === product);
 
       if (existing) {
-        // Remove if exists
         cart = cart.filter(item => item.product !== product);
       } else {
-        // Add new
         cart.push({ product, price, quantity: 1 });
       }
 
       saveCart();
       updateCart();
       updateButtons();
+      toggleViewCartButton();
     });
   });
 
-  // Update button text based on cart contents
+  // Update button text
   function updateButtons() {
     document.querySelectorAll(".add-to-cart").forEach(btn => {
       const product = btn.dataset.product;
@@ -270,7 +275,7 @@
     });
   }
 
-  // Update cart view
+  // Update cart display
   function updateCart() {
     const cartItems = document.getElementById("cart-items");
     const totalAmount = document.getElementById("total-amount");
@@ -297,7 +302,7 @@
     attachQtyListeners();
   }
 
-  // Handle quantity change
+  // Quantity control
   function attachQtyListeners() {
     document.querySelectorAll(".qty-btn").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -318,12 +323,28 @@
     });
   }
 
-  // Save cart to localStorage
+  // Save to localStorage
   function saveCart() {
     localStorage.setItem("cart", JSON.stringify(cart));
   }
 
-  // Checkout button
+  // Show or hide floating cart button
+  function toggleViewCartButton() {
+    if (cart.length > 0) {
+      viewCartBtn.style.display = "flex";
+    } else {
+      viewCartBtn.style.display = "none";
+      // Hide cart view if cart becomes empty
+      document.body.classList.remove("cart-visible");
+    }
+  }
+
+  // Toggle between showing cart and site
+  viewCartBtn.addEventListener("click", () => {
+    document.body.classList.toggle("cart-visible");
+  });
+
+  // Checkout
   document.getElementById("checkout-btn").addEventListener("click", () => {
     if (cart.length === 0) {
       alert("Your cart is empty!");
@@ -337,9 +358,10 @@
     message += `\nTotal (excluding shipping): ₦${document.getElementById("total-amount").textContent}`;
 
     const encoded = encodeURIComponent(message);
-    window.open(`https://wa.me/2348169560586?text=${encoded}`, "_blank");
+    window.open(`https://wa.me/234XXXXXXXXXX?text=${encoded}`, "_blank");
   });
 </script>
+
 
 
 </body>

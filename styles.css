@@ -260,6 +260,56 @@ footer {
 
 .add-to-cart.in-cart {
   background: #555;
+  font-family: 'Playfair Display';
+}
+
+/* Floating Cart Button */
+.floating-cart-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s, background 0.2s;
+  z-index: 9999;
+}
+
+.floating-cart-btn:hover {
+  background: #a67b28;
+  transform: scale(1.05);
+}
+
+.floating-cart-btn img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+/* Hide cart by default */
+#cart {
+  display: none;
+}
+
+/* Fullscreen cart view */
+.cart-visible #cart {
+  display: block;
+}
+
+.cart-visible header,
+.cart-visible .hero,
+.cart-visible #shop,
+.cart-visible #about,
+.cart-visible #contact,
+.cart-visible footer {
+  display: none;
 }
 
 /* Responsive */
