@@ -72,6 +72,15 @@ nav a:hover {
   margin-bottom: 1.25rem;
 }
 
+/* Make hero paragraph uppercase only on large screens */
+@media (min-width: 1024px) {
+  .hero-text {
+    text-transform: uppercase;
+    letter-spacing: 1px; /* optional: adds slight spacing for better readability */
+  }
+}
+
+
 /* Buttons */
 .btn {
   display: inline-block;
