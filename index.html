@@ -213,9 +213,11 @@
 
   <!-- Floating View Cart Button -->
 <button id="view-cart-btn" class="floating-cart-btn" style="display: none;">
-  <img src="img/trolley.jpg" alt="View Cart">
+  <img id="cart-icon" src="img/trolley.jpg" alt="View Cart">
+  <img id="back-icon" src="img/back-arrow.png" alt="Back" style="display: none;">
   <span id="cart-indicator" class="cart-indicator"></span>
 </button>
+
 
 
 
@@ -342,11 +344,24 @@
   }
 }
 
+ // Toggle between showing cart and site + swap icons
+viewCartBtn.addEventListener("click", () => {
+  document.body.classList.toggle("cart-visible");
 
-  // Toggle between showing cart and site
-  viewCartBtn.addEventListener("click", () => {
-    document.body.classList.toggle("cart-visible");
-  });
+  const cartIcon = document.getElementById("cart-icon");
+  const backIcon = document.getElementById("back-icon");
+
+  if (document.body.classList.contains("cart-visible")) {
+    // Show back arrow, hide cart icon
+    cartIcon.style.display = "none";
+    backIcon.style.display = "block";
+  } else {
+    // Show cart icon, hide back arrow
+    cartIcon.style.display = "block";
+    backIcon.style.display = "none";
+  }
+});
+
 
   // Checkout
   document.getElementById("checkout-btn").addEventListener("click", () => {
