@@ -61,6 +61,19 @@ nav a:hover {
   padding: 5rem 1rem;
 }
 
+#shop h2 {
+  font-size: 1.6rem;
+  color: var(--gold);
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 1px;
+  
+  position: relative;
+  z-index: 2;             /* ensures it stays above carousel */
+  margin-top: -1rem;      /* pull upward slightly */
+  margin-bottom: -0.5rem; /* overlap carousel slightly */
+}
+
 .hero h2 {
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
@@ -116,11 +129,7 @@ nav a:hover {
   text-align: center;
 }
 
-.products h2 {
-  font-size: 1.5rem;
-  color: var(--gold);
-  margin-bottom: 2rem;
-}
+
 
 .product-grid {
   display: grid;
@@ -180,7 +189,7 @@ nav a:hover {
   overflow-x: auto;
   overflow-y: hidden;
   padding: 1rem 0;
-  margin: 0 auto 2rem auto;
+  margin: -3 auto 2rem auto;
   width: 100%;
   max-width: 100vw;
   scroll-behavior: smooth;
