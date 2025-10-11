@@ -214,7 +214,9 @@
   <!-- Floating View Cart Button -->
 <button id="view-cart-btn" class="floating-cart-btn" style="display: none;">
   <img src="img/trolley.jpg" alt="View Cart">
+  <span id="cart-indicator" class="cart-indicator"></span>
 </button>
+
 
 
   <section id="about">
@@ -330,14 +332,16 @@
 
   // Show or hide floating cart button
   function toggleViewCartButton() {
-    if (cart.length > 0) {
-      viewCartBtn.style.display = "flex";
-    } else {
-      viewCartBtn.style.display = "none";
-      // Hide cart view if cart becomes empty
-      document.body.classList.remove("cart-visible");
-    }
+  if (cart.length > 0) {
+    viewCartBtn.style.display = "flex";
+    viewCartBtn.classList.add("active"); // show green dot
+  } else {
+    viewCartBtn.style.display = "none";
+    viewCartBtn.classList.remove("active"); // hide green dot
+    document.body.classList.remove("cart-visible");
   }
+}
+
 
   // Toggle between showing cart and site
   viewCartBtn.addEventListener("click", () => {
