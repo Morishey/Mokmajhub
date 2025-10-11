@@ -314,6 +314,17 @@ document.querySelectorAll('.category-circle').forEach(circle => {
     document.getElementById(categoryId).classList.add('active');
   });
 });
+
+// Center the carousel on page load (especially for mobile)
+document.addEventListener("DOMContentLoaded", () => {
+  const carousel = document.querySelector(".category-carousel");
+  if (carousel) {
+    const scrollWidth = carousel.scrollWidth;
+    const visibleWidth = carousel.clientWidth;
+    carousel.scrollLeft = (scrollWidth - visibleWidth) / 2; // centers the circles
+  }
+});
+
   </script>
 
 
