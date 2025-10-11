@@ -148,41 +148,36 @@
         <h3>Spa Essentials</h3>
         <p>₦15,000</p>
         <button class="btn add-to-cart" data-product="Luxury Hamper13" data-price="25000">Add to Cart</button>
-
-
       </div>
+
       <div class="product">
         <img src="/img/IMG-20251005-WA0075.jpg" alt="Spa Essentials">
         <h3>Spa Essentials</h3>
         <p>₦15,000</p>
         <button class="btn add-to-cart" data-product="Luxury Hamper14" data-price="25000">Add to Cart</button>
-
-
       </div>
+
       <div class="product">
         <img src="/img/IMG-20251005-WA0061.jpg" alt="Spa Essentials">
         <h3>Spa Essentials</h3>
         <p>₦15,000</p>
         <button class="btn add-to-cart" data-product="Luxury Hamper15" data-price="25000">Add to Cart</button>
-
-
       </div>
+
       <div class="product">
         <img src="/img/IMG-20251005-WA0062.jpg" alt="Spa Essentials">
         <h3>Spa Essentials</h3>
         <p>₦15,000</p>
         <button class="btn add-to-cart" data-product="Luxury Hamper16" data-price="25000">Add to Cart</button>
-
-
       </div>
+
       <div class="product">
         <img src="/img/IMG-20251005-WA0063.jpg" alt="Spa Essentials">
         <h3>Spa Essentials</h3>
         <p>₦15,000</p>
         <button class="btn add-to-cart" data-product="Luxury Hamper17" data-price="25000">Add to Cart</button>
-
-
       </div>
+
       <div class="product">
         <img src="/img/IMG-20251005-WA0064.jpg" alt="Spa Essentials">
         <h3>Spa Essentials</h3>
@@ -218,9 +213,6 @@
     <span id="cart-indicator" class="cart-indicator"></span>
   </button>
 
-
-
-
   <section id="about">
     <h2>About Us</h2>
     <p>We specialize in elegant hampers and curated toiletries that make every gift special. Whether it's for birthdays,
@@ -234,10 +226,8 @@
   </section>
 
   <footer>
-    <p>&copy; 2025 Hampers by Sarah. All Rights Reserved.</p>
+    <p>&copy; 2025 Mokmajhub. All Rights Reserved.</p>
   </footer>
-
-
 
   <script>
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -267,17 +257,25 @@
         updateButtons();
         toggleViewCartButton();
       });
-    });
 
-    // Update button text
-    function updateButtons() {
-      document.querySelectorAll(".add-to-cart").forEach(btn => {
-        const product = btn.dataset.product;
-        const inCart = cart.some(item => item.product === product);
-        btn.textContent = inCart ? "Remove from Cart" : "Add to Cart";
-        btn.classList.toggle("in-cart", inCart);
-      });
-    }
+ // Update button text and style dynamically
+function updateButtons() {
+  document.querySelectorAll(".add-to-cart").forEach(btn => {
+    const product = btn.dataset.product;
+    const inCart = cart.some(item => item.product === product);
+
+    btn.textContent = inCart ? "Remove from Cart" : "Add to Cart";
+    btn.classList.toggle("in-cart", inCart);
+
+    // ✅ Make both use same font
+    btn.style.fontFamily = "'Poppins', sans-serif";
+    btn.style.fontWeight = "600";
+  });
+}
+
+   });
+
+   
 
     // Update cart display
     function updateCart() {

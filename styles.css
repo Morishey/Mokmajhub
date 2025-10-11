@@ -76,10 +76,9 @@ nav a:hover {
 @media (min-width: 1024px) {
   .hero-text {
     text-transform: uppercase;
-    letter-spacing: 1px; /* optional: adds slight spacing for better readability */
+    letter-spacing: 1px; 
   }
 }
-
 
 /* Buttons */
 .btn {
@@ -90,8 +89,17 @@ nav a:hover {
   border-radius: 6px;
   text-decoration: none;
   font-weight: 600;
+  border: none; 
+  outline: none;
   transition: transform 0.12s ease, background 0.12s ease;
 }
+
+/* Use Playfair Display for 'Remove from Cart' button text */
+.add-to-cart.in-cart {
+  font-family: "Playfair Display", serif;
+  font-weight: 600; /* optional, you can adjust 400–700 */
+}
+
 
 .btn:hover {
   background: #a67b28;
@@ -219,7 +227,7 @@ footer {
   background: #fff;
   padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -269,7 +277,7 @@ footer {
 
 .add-to-cart.in-cart {
   background: #555;
-  font-family: 'Playfair Display';
+  font-family: "Playfair Display";
 }
 
 /* Floating Cart Button */
@@ -319,7 +327,6 @@ footer {
   display: block;
 }
 
-
 /* Hide cart by default */
 #cart {
   display: none;
@@ -368,7 +375,7 @@ footer {
     gap: 1rem;
   }
 
-/* ===== CART VIEW MOBILE ==== */
+  /* ===== CART VIEW MOBILE ==== */
 
   #cart {
     width: 95%;
@@ -386,6 +393,3 @@ footer {
     padding: 0.75rem;
   }
 }
-
-
-
