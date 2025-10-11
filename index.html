@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Mokmajhub | Home</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -212,11 +212,11 @@
   </section>
 
   <!-- Floating View Cart Button -->
-<button id="view-cart-btn" class="floating-cart-btn" style="display: none;">
-  <img id="cart-icon" src="img/trolley.jpg" alt="View Cart">
-  <img id="back-icon" src="img/back-arrow.png" alt="Back" style="display: none;">
-  <span id="cart-indicator" class="cart-indicator"></span>
-</button>
+  <button id="view-cart-btn" class="floating-cart-btn" style="display: none;">
+    <img id="cart-icon" src="img/trolley.jpg" alt="View Cart">
+    <img id="back-icon" src="img/back-arrow.png" alt="Back" style="display: none;">
+    <span id="cart-indicator" class="cart-indicator"></span>
+  </button>
 
 
 
@@ -240,56 +240,56 @@
 
 
   <script>
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const viewCartBtn = document.getElementById("view-cart-btn");
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const viewCartBtn = document.getElementById("view-cart-btn");
 
-  document.addEventListener("DOMContentLoaded", () => {
-    updateCart();
-    updateButtons();
-    toggleViewCartButton();
-  });
-
-  // Add or remove products
-  document.querySelectorAll(".add-to-cart").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const product = btn.dataset.product;
-      const price = parseInt(btn.dataset.price);
-      const existing = cart.find(item => item.product === product);
-
-      if (existing) {
-        cart = cart.filter(item => item.product !== product);
-      } else {
-        cart.push({ product, price, quantity: 1 });
-      }
-
-      saveCart();
+    document.addEventListener("DOMContentLoaded", () => {
       updateCart();
       updateButtons();
       toggleViewCartButton();
     });
-  });
 
-  // Update button text
-  function updateButtons() {
+    // Add or remove products
     document.querySelectorAll(".add-to-cart").forEach(btn => {
-      const product = btn.dataset.product;
-      const inCart = cart.some(item => item.product === product);
-      btn.textContent = inCart ? "Remove from Cart" : "Add to Cart";
-      btn.classList.toggle("in-cart", inCart);
+      btn.addEventListener("click", () => {
+        const product = btn.dataset.product;
+        const price = parseInt(btn.dataset.price);
+        const existing = cart.find(item => item.product === product);
+
+        if (existing) {
+          cart = cart.filter(item => item.product !== product);
+        } else {
+          cart.push({ product, price, quantity: 1 });
+        }
+
+        saveCart();
+        updateCart();
+        updateButtons();
+        toggleViewCartButton();
+      });
     });
-  }
 
-  // Update cart display
-  function updateCart() {
-    const cartItems = document.getElementById("cart-items");
-    const totalAmount = document.getElementById("total-amount");
-    cartItems.innerHTML = "";
+    // Update button text
+    function updateButtons() {
+      document.querySelectorAll(".add-to-cart").forEach(btn => {
+        const product = btn.dataset.product;
+        const inCart = cart.some(item => item.product === product);
+        btn.textContent = inCart ? "Remove from Cart" : "Add to Cart";
+        btn.classList.toggle("in-cart", inCart);
+      });
+    }
 
-    let total = 0;
+    // Update cart display
+    function updateCart() {
+      const cartItems = document.getElementById("cart-items");
+      const totalAmount = document.getElementById("total-amount");
+      cartItems.innerHTML = "";
 
-    cart.forEach(item => {
-      const li = document.createElement("li");
-      li.innerHTML = `
+      let total = 0;
+
+      cart.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `
         <span>${item.product}</span>
         <div class="qty-controls">
           <button class="qty-btn" data-action="decrease" data-product="${item.product}">−</button>
@@ -298,88 +298,88 @@
         </div>
         <span>₦${(item.price * item.quantity).toLocaleString()}</span>
       `;
-      cartItems.appendChild(li);
-      total += item.price * item.quantity;
-    });
-
-    totalAmount.textContent = total.toLocaleString();
-    attachQtyListeners();
-  }
-
-  // Quantity control
-  function attachQtyListeners() {
-    document.querySelectorAll(".qty-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const product = btn.dataset.product;
-        const action = btn.dataset.action;
-
-        cart = cart.map(item => {
-          if (item.product === product) {
-            if (action === "increase") item.quantity++;
-            if (action === "decrease" && item.quantity > 1) item.quantity--;
-          }
-          return item;
-        });
-
-        saveCart();
-        updateCart();
+        cartItems.appendChild(li);
+        total += item.price * item.quantity;
       });
-    });
-  }
 
-  // Save to localStorage
-  function saveCart() {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }
-
-  // Show or hide floating cart button
-  function toggleViewCartButton() {
-  if (cart.length > 0) {
-    viewCartBtn.style.display = "flex";
-    viewCartBtn.classList.add("active"); // show green dot
-  } else {
-    viewCartBtn.style.display = "none";
-    viewCartBtn.classList.remove("active"); // hide green dot
-    document.body.classList.remove("cart-visible");
-  }
-}
-
- // Toggle between showing cart and site + swap icons
-viewCartBtn.addEventListener("click", () => {
-  document.body.classList.toggle("cart-visible");
-
-  const cartIcon = document.getElementById("cart-icon");
-  const backIcon = document.getElementById("back-icon");
-
-  if (document.body.classList.contains("cart-visible")) {
-    // Show back arrow, hide cart icon
-    cartIcon.style.display = "none";
-    backIcon.style.display = "block";
-  } else {
-    // Show cart icon, hide back arrow
-    cartIcon.style.display = "block";
-    backIcon.style.display = "none";
-  }
-});
-
-
-  // Checkout
-  document.getElementById("checkout-btn").addEventListener("click", () => {
-    if (cart.length === 0) {
-      alert("Your cart is empty!");
-      return;
+      totalAmount.textContent = total.toLocaleString();
+      attachQtyListeners();
     }
 
-    let message = "Hello! I'd like to order:\n\n";
-    cart.forEach(item => {
-      message += `${item.product} x${item.quantity} - ₦${(item.price * item.quantity).toLocaleString()}\n`;
-    });
-    message += `\nTotal (excluding shipping): ₦${document.getElementById("total-amount").textContent}`;
+    // Quantity control
+    function attachQtyListeners() {
+      document.querySelectorAll(".qty-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const product = btn.dataset.product;
+          const action = btn.dataset.action;
 
-    const encoded = encodeURIComponent(message);
-    window.open(`https://wa.me/234XXXXXXXXXX?text=${encoded}`, "_blank");
-  });
-</script>
+          cart = cart.map(item => {
+            if (item.product === product) {
+              if (action === "increase") item.quantity++;
+              if (action === "decrease" && item.quantity > 1) item.quantity--;
+            }
+            return item;
+          });
+
+          saveCart();
+          updateCart();
+        });
+      });
+    }
+
+    // Save to localStorage
+    function saveCart() {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
+    // Show or hide floating cart button
+    function toggleViewCartButton() {
+      if (cart.length > 0) {
+        viewCartBtn.style.display = "flex";
+        viewCartBtn.classList.add("active"); // show green dot
+      } else {
+        viewCartBtn.style.display = "none";
+        viewCartBtn.classList.remove("active"); // hide green dot
+        document.body.classList.remove("cart-visible");
+      }
+    }
+
+    // Toggle between showing cart and site + swap icons
+    viewCartBtn.addEventListener("click", () => {
+      document.body.classList.toggle("cart-visible");
+
+      const cartIcon = document.getElementById("cart-icon");
+      const backIcon = document.getElementById("back-icon");
+
+      if (document.body.classList.contains("cart-visible")) {
+        // Show back arrow, hide cart icon
+        cartIcon.style.display = "none";
+        backIcon.style.display = "block";
+      } else {
+        // Show cart icon, hide back arrow
+        cartIcon.style.display = "block";
+        backIcon.style.display = "none";
+      }
+    });
+
+
+    // Checkout
+    document.getElementById("checkout-btn").addEventListener("click", () => {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+
+      let message = "Hello! I'd like to order:\n\n";
+      cart.forEach(item => {
+        message += `${item.product} x${item.quantity} - ₦${(item.price * item.quantity).toLocaleString()}\n`;
+      });
+      message += `\nTotal (excluding shipping): ₦${document.getElementById("total-amount").textContent}`;
+
+      const encoded = encodeURIComponent(message);
+      window.open(`https://wa.me/234XXXXXXXXXX?text=${encoded}`, "_blank");
+    });
+  </script>
 
 
 
