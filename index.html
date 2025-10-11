@@ -34,57 +34,54 @@
     <a href="#shop" class="btn">Shop Now</a>
   </section>
     
+<section id="shop" class="products">
+  <h2>Our Collection</h2>
 
-  <!-- Horizontal circular menu -->
-<div class="category-carousel">
-  <div class="category-circle active" data-category="hampers">
-    <div class="circle-content">
-      <img src="img/IMG-20251005-WA0075.jpg" alt="Hampers">
-      <p>Hampers</p>
+  <!-- HORIZONTAL CIRCULAR MENU -->
+  <div class="category-carousel">
+    <div class="category-circle active" data-category="hampers">
+      <div class="circle-content">
+        <img src="img/IMG-20251005-WA0075.jpg" alt="Hampers">
+        <p>Hampers</p>
+      </div>
+    </div>
+
+    <div class="category-circle" data-category="gifts">
+      <div class="circle-content">
+        <img src="img/IMG-20251005-WA0061.jpg" alt="Gifts">
+        <p>Gifts</p>
+      </div>
+    </div>
+
+    <div class="category-circle" data-category="earrings">
+      <div class="circle-content">
+        <img src="img/IMG-20251005-WA0098.jpg" alt="Earrings">
+        <p>Earrings</p>
+      </div>
+    </div>
+
+    <div class="category-circle" data-category="soaps">
+      <div class="circle-content">
+        <img src="img/IMG-20251005-WA0072.jpg" alt="Soaps">
+        <p>Soaps</p>
+      </div>
     </div>
   </div>
 
-  <div class="category-circle" data-category="gifts">
-    <div class="circle-content">
-      <img src="img/IMG-20251005-WA0061.jpg" alt="Gifts">
-      <p>Gifts</p>
-    </div>
-  </div>
-
-  <div class="category-circle" data-category="earrings">
-    <div class="circle-content">
-      <img src="img/IMG-20251005-WA0098.jpg" alt="Earrings">
-      <p>Earrings</p>
-    </div>
-  </div>
-
-  <div class="category-circle" data-category="soaps">
-    <div class="circle-content">
-      <img src="img/IMG-20251005-WA0072.jpg" alt="Soaps">
-      <p>Soaps</p>
-    </div>
-  </div>
-</div>
-
-
-
-  <!-- Product grids -->
+  <!-- CATEGORY GRIDS -->
   <div class="category-grid active" id="hampers">
     <div class="product-grid">
-      <!-- Your existing hampers products -->
       <div class="product">
         <img src="img/IMG-20251005-WA0051.jpg" alt="Luxury Hamper">
         <h3>Luxury Hamper</h3>
         <p>₦25,000</p>
         <button class="btn add-to-cart" data-product="Luxury Hamper" data-price="25000">Add to Cart</button>
       </div>
-      <!-- Add more hamper products here -->
     </div>
   </div>
 
   <div class="category-grid" id="gifts">
     <div class="product-grid">
-      <!-- Gift products here -->
       <div class="product">
         <img src="img/gift-box.jpg" alt="Gift Box">
         <h3>Gift Box</h3>
@@ -96,7 +93,6 @@
 
   <div class="category-grid" id="earrings">
     <div class="product-grid">
-      <!-- Earrings products here -->
       <div class="product">
         <img src="img/earrings.jpg" alt="Earrings">
         <h3>Elegant Earrings</h3>
@@ -108,7 +104,6 @@
 
   <div class="category-grid" id="soaps">
     <div class="product-grid">
-      <!-- Soap products here -->
       <div class="product">
         <img src="img/soap.jpg" alt="Soap">
         <h3>Organic Soap</h3>
@@ -118,6 +113,7 @@
     </div>
   </div>
 </section>
+
 
 
   <section id="cart">
@@ -324,6 +320,30 @@ document.addEventListener("DOMContentLoaded", () => {
     carousel.scrollLeft = (scrollWidth - visibleWidth) / 2; // centers the circles
   }
 });
+
+function centerFirstN(n = 4) {
+  const carousel = document.querySelector('.category-carousel');
+  if (!carousel) return;
+  const items = carousel.querySelectorAll('.category-circle');
+  if (!items.length) return;
+
+  const count = Math.min(n, items.length);
+  let totalWidth = 0;
+  for (let i = 0; i < count; i++) {
+    const el = items[i];
+    const style = getComputedStyle(el);
+    const marginRight = parseFloat(style.marginRight || 0);
+    const marginLeft = parseFloat(style.marginLeft || 0);
+    totalWidth += el.offsetWidth + marginLeft + marginRight;
+  }
+  const blockCenter = totalWidth / 2;
+  const visible = carousel.clientWidth;
+  const target = Math.max(0, Math.min(blockCenter - visible / 2, carousel.scrollWidth - visible));
+  carousel.scrollLeft = target;
+}
+document.addEventListener('DOMContentLoaded', () => centerFirstN(4));
+window.addEventListener('resize', () => centerFirstN(4));
+
 
   </script>
 

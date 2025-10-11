@@ -170,12 +170,12 @@ nav a:hover {
 }
 
 
-/* Horizontally centered scrollable circular carousel */
+/* === Centered horizontal circular carousel === */
 .category-carousel {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;  /* centers when full width available */
+  justify-content: center;
   gap: 1rem;
   overflow-x: auto;
   overflow-y: hidden;
@@ -188,41 +188,28 @@ nav a:hover {
   scroll-snap-type: x mandatory;
   box-sizing: border-box;
 }
-
-/* Hide scrollbar */
-.category-carousel::-webkit-scrollbar {
-  display: none;
-}
-
-/* Space before & after so first/last circle aren’t stuck to edges */
+.category-carousel::-webkit-scrollbar { display: none; }
 .category-carousel::before,
-.category-carousel::after {
-  content: "";
-  flex: 0 0 12px;
-}
+.category-carousel::after { content:""; flex:0 0 12px; }
 
-
-/* Circular category item */
+/* Circle container */
 .category-circle {
   flex: 0 0 auto;
   width: 90px;
   height: 90px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   border: 3px solid transparent;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.25s ease, border-color 0.25s ease;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* ✅ keep image & text inside circle */
+  overflow: hidden;
   position: relative;
+  cursor: pointer;
+  transition: transform .25s ease, border-color .25s ease;
+  scroll-snap-align: center;
 }
-
-/* Inner wrapper for image + text */
 .circle-content {
   display: flex;
   flex-direction: column;
@@ -230,28 +217,25 @@ nav a:hover {
   justify-content: center;
   text-align: center;
 }
-
-/* Image fits nicely inside circle */
 .category-circle img {
-  width: 45px;
-  height: 45px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 4px;
 }
-
-/* Text perfectly centered under image (still inside circle) */
 .category-circle p {
-  font-size: 0.75rem;
+  margin: 0;
+  font-size: .75rem;
+  line-height: 1;
   font-weight: 600;
   color: var(--text);
-  margin: 0;
-  line-height: 1;
 }
-
-.category-circle:hover {
-  transform: scale(1.1);
+.category-circle.active {
+  border-color: var(--gold);
+  transform: scale(1.08);
 }
+.category-circle:hover { transform: scale(1.1); }
 
 
 /* Active circle highlight */
