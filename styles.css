@@ -440,7 +440,45 @@ footer {
   display: none;
 }
 
-/* Responsive */
+/* ✨ Smooth transition between main view and cart view */
+body {
+  transition: background 0.4s ease;
+}
+
+.main-content,
+#cart {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+body.cart-visible .main-content {
+  opacity: 0;
+  transform: translateY(-15px);
+  pointer-events: none;
+}
+
+body.cart-visible #cart {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#cart {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+/* Keep cart visible smoothly */
+body.cart-visible #cart {
+  display: block;
+  pointer-events: all;
+}
+
+
+/* Responsive MEDIA QWERY======= */
+
+
 @media (max-width: 768px) {
   header {
     flex-direction: column;
