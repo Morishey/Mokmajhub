@@ -491,9 +491,9 @@
       <p>&copy; 2025 Mokmajhub. All Rights Reserved.</p>
     </footer>
   </div>
-  <!-- END .main-content -->
 
-  <!-- Cart section stays outside the main-content so it can be revealed separately -->
+  <!-- CART SECTION -->
+
   <section id="cart">
     <h2>Your Cart</h2>
     <ul id="cart-items"></ul>
@@ -503,6 +503,7 @@
     <button id="checkout-btn" class="btn">Checkout via WhatsApp</button>
   </section>
 
+
   <!-- Floating View Cart Button -->
   <button id="view-cart-btn" class="floating-cart-btn" style="display: none;">
     <img id="cart-icon" src="img/trolley.jpg" alt="View Cart">
@@ -510,14 +511,12 @@
     <span id="cart-indicator" class="cart-indicator"></span>
   </button>
 
-  <!-- Your existing script preserved exactly (no changes to logic or placements) -->
+
+
   <script>
-    // Always start empty during development
-    localStorage.removeItem("cart");
-    let cart = [];
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const viewCartBtn = document.getElementById("view-cart-btn");
 
-    // Initialize after DOM loads
     document.addEventListener("DOMContentLoaded", () => {
       updateCart();
       updateButtons();
@@ -574,23 +573,26 @@
       cart.forEach(item => {
         const li = document.createElement("li");
         li.innerHTML = `
-          <span>${item.product}</span>
-          <div class="qty-controls">
-            <button class="qty-btn" data-action="decrease" data-product="${item.product}">−</button>
-            <span>${item.quantity}</span>
-            <button class="qty-btn" data-action="increase" data-product="${item.product}">+</button>
-          </div>
-          <span>₦${(item.price * item.quantity).toLocaleString()}</span>
-        `;
+      <span class="item-name">${item.product}</span>
+      <div class="qty-controls">
+        <button class="qty-btn" data-action="decrease" data-product="${item.product}">−</button>
+        <span>${item.quantity}</span>
+        <button class="qty-btn" data-action="increase" data-product="${item.product}">+</button>
+      </div>
+      <span>₦${(item.price * item.quantity).toLocaleString()}</span>
+      <button class="delete-btn" data-product="${item.product}">🗑️</button>
+    `;
         cartItems.appendChild(li);
         total += item.price * item.quantity;
       });
 
       totalAmount.textContent = total.toLocaleString();
+
       attachQtyListeners();
+      attachDeleteListeners();
     }
 
-    // ✅ Quantity controls (avoid duplicates)
+    // ✅ Quantity controls
     function attachQtyListeners() {
       document.querySelectorAll(".qty-btn").forEach(btn => {
         btn.onclick = () => {
@@ -611,7 +613,40 @@
       });
     }
 
-    // ✅ Save to localStorage
+    // ✅ Delete item from cart (fixed version)
+    function attachDeleteListeners() {
+      document.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.onclick = () => {
+          const product = btn.dataset.product;
+          cart = cart.filter(item => item.product !== product);
+          saveCart();
+          updateCart();
+          updateButtons();
+          toggleViewCartButton();
+
+          // 🩵 Handle when cart becomes empty
+          if (cart.length === 0) {
+            document.body.classList.remove("cart-visible");
+
+            const cartIcon = document.getElementById("cart-icon");
+            const backIcon = document.getElementById("back-icon");
+            if (cartIcon) cartIcon.style.display = "block";
+            if (backIcon) backIcon.style.display = "none";
+
+            const main = document.querySelector(".main-content");
+            if (main) main.style.pointerEvents = "";
+
+            // smooth scroll back to top (optional)
+            setTimeout(() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }, 200);
+          }
+        };
+      });
+    }
+
+
+    // ✅ Save cart to localStorage
     function saveCart() {
       localStorage.setItem("cart", JSON.stringify(cart));
     }
@@ -628,46 +663,38 @@
       }
     }
 
-    
-viewCartBtn.addEventListener("click", () => {
-  // toggle the cart-visible class (this controls CSS transitions)
-  document.body.classList.toggle("cart-visible");
+    // ✅ Toggle between cart view and main site
+    viewCartBtn.addEventListener("click", () => {
+      document.body.classList.toggle("cart-visible");
 
-  // restore icons switching (exact logic you wanted)
-  const cartIcon = document.getElementById("cart-icon");
-  const backIcon = document.getElementById("back-icon");
+      const cartIcon = document.getElementById("cart-icon");
+      const backIcon = document.getElementById("back-icon");
 
-  if (document.body.classList.contains("cart-visible")) {
-    if (cartIcon) cartIcon.style.display = "none";
-    if (backIcon) backIcon.style.display = "block";
+      if (document.body.classList.contains("cart-visible")) {
+        if (cartIcon) cartIcon.style.display = "none";
+        if (backIcon) backIcon.style.display = "block";
 
-    // Optional: prevent clicks on the main content while cart is visible
-    const main = document.querySelector(".main-content");
-    if (main) main.style.pointerEvents = "none";
+        const main = document.querySelector(".main-content");
+        if (main) main.style.pointerEvents = "none";
 
-    // small delay so CSS fade/slide starts before scrolling cart into view
-    setTimeout(() => {
-      const cartEl = document.getElementById("cart");
-      if (cartEl) cartEl.scrollIntoView({ behavior: "smooth" });
-    }, 200);
-  } else {
-    if (cartIcon) cartIcon.style.display = "block";
-    if (backIcon) backIcon.style.display = "none";
+        setTimeout(() => {
+          const cartEl = document.getElementById("cart");
+          if (cartEl) cartEl.scrollIntoView({ behavior: "smooth" });
+        }, 200);
+      } else {
+        if (cartIcon) cartIcon.style.display = "block";
+        if (backIcon) backIcon.style.display = "none";
 
-    // restore pointer events on main content
-    const main = document.querySelector(".main-content");
-    if (main) main.style.pointerEvents = "";
+        const main = document.querySelector(".main-content");
+        if (main) main.style.pointerEvents = "";
 
-    // scroll back to top (or wherever you prefer) after the transition starts
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 200);
-  }
-});
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }, 200);
+      }
+    });
 
-
-
-    // ✅ Checkout
+    // ✅ Checkout via WhatsApp
     document.getElementById("checkout-btn").addEventListener("click", () => {
       if (cart.length === 0) {
         alert("Your cart is empty!");
@@ -685,22 +712,22 @@ viewCartBtn.addEventListener("click", () => {
     });
 
     // ✅ Category switching logic
-    document.querySelectorAll('.category-circle').forEach(circle => {
-      circle.addEventListener('click', () => {
-        document.querySelectorAll('.category-circle').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.category-grid').forEach(grid => grid.classList.remove('active'));
+    document.querySelectorAll(".category-circle").forEach(circle => {
+      circle.addEventListener("click", () => {
+        document.querySelectorAll(".category-circle").forEach(c => c.classList.remove("active"));
+        document.querySelectorAll(".category-grid").forEach(grid => grid.classList.remove("active"));
 
-        circle.classList.add('active');
-        const categoryId = circle.getAttribute('data-category');
-        document.getElementById(categoryId).classList.add('active');
+        circle.classList.add("active");
+        const categoryId = circle.getAttribute("data-category");
+        document.getElementById(categoryId).classList.add("active");
       });
     });
 
-    // ✅ Center the carousel properly
+    // ✅ Center carousel properly
     function centerFirstN(n = 4) {
-      const carousel = document.querySelector('.category-carousel');
+      const carousel = document.querySelector(".category-carousel");
       if (!carousel) return;
-      const items = carousel.querySelectorAll('.category-circle');
+      const items = carousel.querySelectorAll(".category-circle");
       if (!items.length) return;
 
       const count = Math.min(n, items.length);
@@ -718,9 +745,10 @@ viewCartBtn.addEventListener("click", () => {
       carousel.scrollLeft = target;
     }
 
-    document.addEventListener('DOMContentLoaded', () => centerFirstN(4));
-    window.addEventListener('resize', () => centerFirstN(4));
+    document.addEventListener("DOMContentLoaded", () => centerFirstN(4));
+    window.addEventListener("resize", () => centerFirstN(4));
   </script>
+
 
 </body>
 
