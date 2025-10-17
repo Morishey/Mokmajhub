@@ -484,7 +484,22 @@ body.cart-visible #cart {
     flex-direction: column;
     gap: 0.5rem;
     text-align: center;
+    position: sticky;
+    align-items: center;
   }
+
+  header h1 {
+    font-size: 1.4rem;          /* smaller text */
+    position: absolute;         /* lock it in the corner */
+    top: 10px;                  /* slight spacing from top */
+    left: 15px;                 /* slight spacing from left */
+    margin: 0;
+  }
+
+  header nav {
+    margin-top: 2.5rem;         /* push nav below the title */
+  }
+
 
   .hero {
     padding: 3.25rem 1rem;
