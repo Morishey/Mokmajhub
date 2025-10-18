@@ -96,9 +96,9 @@ nav a:hover {
   letter-spacing: 1px;
   
   position: relative;
-  z-index: 2;             /* ensures it stays above carousel */
-  margin-top: -1rem;      /* pull upward slightly */
-  margin-bottom: -0.5rem; /* overlap carousel slightly */
+  z-index: 2;           
+  margin-top: -3rem;      
+  margin-bottom: -0.4rem; 
 }
 
 .hero h2 {
@@ -137,7 +137,7 @@ nav a:hover {
 /* Use Playfair Display for 'Remove from Cart' button text */
 .add-to-cart.in-cart {
   font-family: "Playfair Display", serif;
-  font-weight: 600; /* optional, you can adjust 400–700 */
+  font-weight: 600; 
 }
 
 .btn:hover {
@@ -409,7 +409,7 @@ footer {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: var(--gold);
+  background-color: #220A37;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   border: none;
   cursor: pointer;
@@ -540,7 +540,7 @@ body.cart-visible #cart {
   }
 
   header nav {
-    margin-top: 2.5rem;         /* push nav below the title */
+    margin-top: 2.5rem;        
   }
 
 
